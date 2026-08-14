@@ -1,0 +1,31 @@
+[Unit]
+Description=hebcal readings-svc (leyning and daily learning) microservice
+Documentation=https://github.com/hebcal/readings-svc
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=node /var/www/readings-svc/index.js
+Restart=always
+RestartSec=2
+
+# Creates and owns /run/hebcal (cleaned up on stop). The socket itself
+# is chmod 0666 by the service so the web app's user can connect regardless of
+# group membership.
+RuntimeDirectory=hebcal
+RuntimeDirectoryMode=0755
+
+# Run unprivileged; the socket dir is world-traversable and the socket 0666.
+DynamicUser=yes
+# Hardening
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+
+[Install]
+WantedBy=multi-user.target
