@@ -22,35 +22,24 @@ if (fs.existsSync(SOCKET_PATH)) {
   fs.unlinkSync(SOCKET_PATH);
 }
 
-const jsonContentType = { 'Content-Type': 'application/json' };
-
 // 2. Create the standard HTTP server
 const server = http.createServer((req, res) => {
   const reqUrl = req.url || '/';
   const url = new URL(reqUrl, 'http://unix');
   try {
     if (url.pathname.startsWith('/healthz')) {
-      res.writeHead(200, jsonContentType);
-      res.end('{"status":"ok"}\n');
+      sendJsonResponse(res, 200, { status: 'ok' });
     } else if (url.pathname.startsWith('/learning')) {
       const obj = dailyLearning(url);
-      res.writeHead(200, jsonContentType);
-      res.write(JSON.stringify(obj));
-      res.end('\n');
+      sendJsonResponse(res, 200, obj);
     } else if (url.pathname.startsWith('/leyning')) {
       const obj = leyning(url);
-      res.writeHead(200, jsonContentType);
-      res.write(JSON.stringify(obj));
-      res.end('\n');
+      sendJsonResponse(res, 200, obj);
     } else {
-      res.writeHead(404, jsonContentType);
-      res.write(JSON.stringify({ error: 'Not Found' }));
-      res.end('\n');
+      sendJsonResponse(res, 404, { error: 'Not Found' });
     }
   } catch (err) {
-    res.writeHead(400, jsonContentType);
-    res.write(JSON.stringify({ error: err.message }));
-    res.end('\n');
+    sendJsonResponse(res, 400, { error: err.message });
   }
 });
 
@@ -80,3 +69,14 @@ process.on('SIGTERM', shutdown);
 // 'exit' handlers cannot await anything, so this one only does the synchronous
 // half; shutdown() above is what runs on a signal.
 process.on('exit', unlinkSocket);
+
+/**
+ * @param {http.ServerResponse} res
+ * @param {number} status
+ * @param {any} obj
+ */
+function sendJsonResponse(res, status, obj) {
+  res.writeHead(status, { 'Content-Type': 'application/json' });
+  res.write(JSON.stringify(obj));
+  res.end('\n');
+}

@@ -16,6 +16,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "oxlint *.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -27,6 +28,6 @@
     "@hebcal/triennial": "^6.3.2"
   },
   "devDependencies": {
-    "oxlint": "^1.78.0"
+    "oxlint": "^1.79.0"
   }
 }
