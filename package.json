@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@hebcal/core": "^6.9.2",
-    "@hebcal/learning": "^6.11.1",
+    "@hebcal/learning": "^6.11.2",
     "@hebcal/leyning": "^10.0.0",
     "@hebcal/locales": "^6.5.2",
     "@hebcal/rest-api": "^7.1.3",
