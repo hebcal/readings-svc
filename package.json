@@ -1,6 +1,6 @@
 {
   "name": "readings-svc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Daily Learning and Torah Reading (Leyning) microservice",
   "homepage": "https://github.com/hebcal/readings-svc#readme",
   "bugs": {
@@ -21,13 +21,13 @@
   },
   "dependencies": {
     "@hebcal/core": "^6.9.2",
-    "@hebcal/learning": "^6.10.0",
+    "@hebcal/learning": "^6.11.1",
     "@hebcal/leyning": "^10.0.0",
     "@hebcal/locales": "^6.5.2",
     "@hebcal/rest-api": "^7.1.3",
     "@hebcal/triennial": "^6.3.2"
   },
   "devDependencies": {
-    "oxlint": "^1.79.0"
+    "oxlint": "^1.80.0"
   }
 }

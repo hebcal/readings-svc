@@ -23,7 +23,8 @@ const queryToDailyLearningName = {
   dw: 'dafWeeklySunday',
   dpa: 'pirkeiAvotSummer',
   ahsy: 'arukhHaShulchanYomi',
-  dksa: 'kitzurShulchanAruch'
+  dksa: 'kitzurShulchanAruch',
+  ddh: 'dirshuDafHalacha',
 };
 
 /**
