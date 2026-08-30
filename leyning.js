@@ -1,8 +1,8 @@
-import { calendar, flags } from '@hebcal/core';
-import { formatAliyahWithBook } from '@hebcal/leyning';
+import { calendar, flags, getHolidaysOnDate, getSedra, HDate, ParshaEvent } from '@hebcal/core';
+import { formatAliyahWithBook, getLeyningForHoliday, getLeyningForParshaHaShavua } from '@hebcal/leyning';
 import { eventsToClassicApiHeader, eventToClassicApiObject } from '@hebcal/rest-api';
 import { getTriennialForParshaHaShavua } from '@hebcal/triennial';
-import { getStartAndEnd } from './date.js';
+import { getStartAndEnd, isoDateStringToDate } from './date.js';
 
 /**
  * Returns only events with Leyning. Adds Triennial readings for Parsha HaShavua.
@@ -61,4 +61,46 @@ export function leyning(url) {
   const result = eventsToClassicApiHeader(events, options);
   result.items = items.filter(item => item.leyning);
   return result;
+}
+
+/**
+ * Returns the full getLeyningForParshaHaShavua() reading, verbatim, for the
+ * Shabbat whose parsha is read on `date`: its `name`, `summary`, `fullkriyah`,
+ * `haftara` and the rest of @hebcal/leyning's shape.
+ *
+ * This backs hebcal-api-go's MCP `torah-portion` tool. That tool reads only the
+ * `summary` -- e.g. "Exodus 1:1-6:1", or the merged special-Shabbat form
+ * "Leviticus 1:1-5:26; Deuteronomy 25:17-19" -- which is @hebcal/leyning's
+ * makeSummaryFromParts() output and cannot be produced in Go; the rest of the
+ * object is returned as-is so other callers can reuse the endpoint without a
+ * new route. It is deliberately separate from `/leyning`, whose classic-API
+ * shape (built for `/shabbat`) omits `summary` and carries the triennial
+ * cycle this does not.
+ *
+ * When a chag displaces the weekly parsha, there is no ParshaEvent to read, so
+ * the holiday's own reading is returned instead via getLeyningForHoliday() --
+ * the same @hebcal/leyning shape, with its `name` ("Pesach Shabbat Chol
+ * ha-Moed") and `summary`. The holiday is the first one getHolidaysOnDate()
+ * reports for the requested date.
+ *
+ * @param {URL} url
+ * @return {Object}
+ */
+export function shabbatTorahReading(url) {
+  const sp = url.searchParams;
+  const dateStr = sp.get('date');
+  if (!dateStr) {
+    throw new SyntaxError("Missing required 'date' query parameter");
+  }
+  const dt = isoDateStringToDate(dateStr);
+  const il = sp.get('i') === 'on';
+  const hd = new HDate(dt);
+  const sedra = getSedra(hd.getFullYear(), il);
+  const parsha = sedra.lookup(hd);
+  if (parsha.chag) {
+    const holidays = getHolidaysOnDate(hd, il);
+    return getLeyningForHoliday(holidays[0], il);
+  }
+  const pe = new ParshaEvent(parsha);
+  return getLeyningForParshaHaShavua(pe, pe.p.il);
 }

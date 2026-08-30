@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import process from 'node:process';
 import {parseArgs} from 'node:util';
 import {dailyLearning} from './learning.js';
-import {leyning} from './leyning.js';
+import {leyning, shabbatTorahReading} from './leyning.js';
 
 const DEFAULT_SOCKET_PATH = '/run/hebcal/readings-svc.sock';
 
@@ -31,6 +31,9 @@ const server = http.createServer((req, res) => {
       sendJsonResponse(res, 200, { status: 'ok' });
     } else if (url.pathname.startsWith('/learning')) {
       const obj = dailyLearning(url);
+      sendJsonResponse(res, 200, obj);
+    } else if (url.pathname.startsWith('/shabbatTorahReading')) {
+      const obj = shabbatTorahReading(url);
       sendJsonResponse(res, 200, obj);
     } else if (url.pathname.startsWith('/leyning')) {
       const obj = leyning(url);
