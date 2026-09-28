@@ -1,15 +1,15 @@
 # readings-svc
 
-A small Node.js sidecar microservice that provides two Hebcal APIs which are
+A small Node.js sidecar microservice that provides three Hebcal APIs which are
 not available natively in the Go port of Hebcal web APIs,
 [hebcal-api-go](https://github.com/hebcal/hebcal-api-go). The Go service handles
 date conversion, zmanim, geolocation and Shabbat times with high throughput, but
 it has no leyning (Torah reading) data and cannot compute every daily-learning
-series on its own. This service fills those two gaps by wrapping the mature
+series on its own. This service fills those gaps by wrapping the mature
 Node.js [`@hebcal`](https://github.com/hebcal) packages and exposing them over a
 local Unix-domain socket.
 
-The two APIs are:
+The three APIs are:
 
 1. **Daily Learning** (`/learning`) — the 20 daily-learning series from
    [`@hebcal/learning`](https://github.com/hebcal/learning), used by the PDF
@@ -22,6 +22,8 @@ The two APIs are:
    [`@hebcal/leyning`](https://github.com/hebcal/leyning) and
    [`@hebcal/triennial`](https://github.com/hebcal/triennial). This backs the
    `/shabbat?cfg=json` handler in hebcal-api-go.
+3. **Shabbat Torah Reading** (`/shabbatTorahReading`) — the same leyning data
+   as `/leyning`, but for a single date, used by the MCP torah-portion tool.
 
 Responses use Hebcal's "classic API" JSON shape, produced by
 [`@hebcal/rest-api`](https://github.com/hebcal/rest-api), so they drop in where
