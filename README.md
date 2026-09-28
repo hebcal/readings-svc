@@ -22,12 +22,17 @@ The three APIs are:
    [`@hebcal/leyning`](https://github.com/hebcal/leyning) and
    [`@hebcal/triennial`](https://github.com/hebcal/triennial). This backs the
    `/shabbat?cfg=json` handler in hebcal-api-go.
-3. **Shabbat Torah Reading** (`/shabbatTorahReading`) — the same leyning data
-   as `/leyning`, but for a single date, used by the MCP torah-portion tool.
+3. **Shabbat Torah Reading** (`/shabbatTorahReading`) — the leyning for a
+   single date from [`@hebcal/leyning`](https://github.com/hebcal/leyning),
+   used by the MCP torah-portion tool. Unlike `/leyning`, it does not include
+   the triennial cycle.
 
-Responses use Hebcal's "classic API" JSON shape, produced by
-[`@hebcal/rest-api`](https://github.com/hebcal/rest-api), so they drop in where
-hebcal-api-go previously called out to `hebcal-web` over HTTP.
+`/learning` and `/leyning` respond in Hebcal's "classic API" JSON shape,
+produced by [`@hebcal/rest-api`](https://github.com/hebcal/rest-api), so they
+drop in where hebcal-api-go previously called out to `hebcal-web` over HTTP.
+`/shabbatTorahReading` instead returns `@hebcal/leyning`'s
+`getLeyningForParshaHaShavua()` (or, for a chag, `getLeyningForHoliday()`)
+object verbatim.
 
 ## Transport
 
