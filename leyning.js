@@ -1,4 +1,4 @@
-import { calendar, flags, getHolidaysOnDate, getSedra, HDate, ParshaEvent } from '@hebcal/core';
+import { calendar, getHolidaysOnDate, getSedra, HDate, ParshaEvent } from '@hebcal/core';
 import { formatAliyahWithBook, getLeyningForHoliday, getLeyningForParshaHaShavua } from '@hebcal/leyning';
 import { eventsToClassicApiHeader, eventToClassicApiObject } from '@hebcal/rest-api';
 import { getTriennialForParshaHaShavua } from '@hebcal/triennial';
@@ -42,7 +42,7 @@ export function leyning(url) {
     delete item.link;
     delete item.memo;
     delete item.hebrew;
-    if ((ev.getFlags() & flags.PARSHA_HASHAVUA) && ev.getDate().getFullYear() >= 5745) {
+    if (ev.hasFlag('PARSHA_HASHAVUA') && ev.getDate().getFullYear() >= 5745) {
       const triReading = getTriennialForParshaHaShavua(ev, options.il);
       const aliyot = triReading?.aliyot;
       if (aliyot) {

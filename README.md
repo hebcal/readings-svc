@@ -98,7 +98,27 @@ query code set to `on` or `1`.
 **Example**
 
 ```
-GET /learning?start=2026-08-14&end=2026-08-14&dsm=on&dksa=on
+GET /learning?start=2026-01-10&end=2026-01-10&F=on
+```
+
+```json
+{
+  "title": "Hebcal Diaspora January 2026",
+  "date": "2026-09-28T17:05:59.803Z",
+  "version": "6.10.0",
+  "location": { "geo": "none" },
+  "range": { "start": "2026-01-10", "end": "2026-01-10" },
+  "items": [
+    {
+      "title": "Zevachim 118",
+      "date": "2026-01-10",
+      "hdate": "21 Tevet 5786",
+      "category": "dafyomi",
+      "hebrew": "זבחים דף קי״ח",
+      "link": "https://www.sefaria.org/Zevachim.118a?lang=bi&utm_source=hebcal.com&utm_medium=api"
+    }
+  ]
+}
 ```
 
 ### `GET /shabbatTorahReading`
@@ -116,11 +136,42 @@ for a chag falling on that date.
 **Example**
 
 ```
-GET /shabbatTorahReading?date=2026-08-15
+GET /shabbatTorahReading?date=2026-01-10
 ```
 
-Returns the same `leyning` shape as `/leyning`'s items (aliyot, `torah`
-summary, `haftarah`, `maftir`, and `triennial` for a parsha).
+Returns @hebcal/leyning's `getLeyningForParshaHaShavua()` (or, for a chag,
+`getLeyningForHoliday()`) object verbatim — `name`, `summary`, `fullkriyah`,
+`haftara`, and the rest of that shape. Unlike `/leyning`, this does **not**
+include the `triennial` cycle.
+
+```json
+{
+  "name": { "en": "Shemot", "he": "שְׁמוֹת" },
+  "type": "shabbat",
+  "parsha": ["Shemot"],
+  "parshaNum": 13,
+  "summary": "Exodus 1:1-6:1",
+  "fullkriyah": {
+    "1": { "k": "Exodus", "b": "1:1", "e": "1:17", "v": 17 },
+    "2": { "k": "Exodus", "b": "1:18", "e": "2:10", "v": 15 },
+    "3": { "k": "Exodus", "b": "2:11", "e": "2:25", "v": 15 },
+    "4": { "k": "Exodus", "b": "3:1", "e": "3:15", "v": 15 },
+    "5": { "k": "Exodus", "b": "3:16", "e": "4:17", "v": 24 },
+    "6": { "k": "Exodus", "b": "4:18", "e": "4:31", "v": 14 },
+    "7": { "k": "Exodus", "b": "5:1", "e": "6:1", "v": 24 },
+    "M": { "k": "Exodus", "b": "5:22", "e": "6:1", "v": 3 }
+  },
+  "haftara": "Isaiah 27:6-28:13, 29:22-23",
+  "haft": [
+    { "k": "Isaiah", "b": "27:6", "e": "28:13", "v": 21 },
+    { "k": "Isaiah", "b": "29:22", "e": "29:23", "v": 2 }
+  ],
+  "haftaraNumV": 23,
+  "seph": { "k": "Jeremiah", "b": "1:1", "e": "2:3", "v": 22 },
+  "sephardic": "Jeremiah 1:1-2:3",
+  "sephardicNumV": 22
+}
+```
 
 ### `GET /leyning`
 
@@ -139,7 +190,48 @@ also include the `triennial` cycle reading.
 **Example**
 
 ```
-GET /leyning?start=2026-08-14&end=2026-08-22
+GET /leyning?start=2026-01-10&end=2026-01-10
+```
+
+```json
+{
+  "title": "Hebcal Diaspora January 2026",
+  "date": "2026-09-28T17:05:59.802Z",
+  "version": "6.10.0",
+  "location": { "geo": "none" },
+  "range": { "start": "2026-01-10", "end": "2026-01-10" },
+  "items": [
+    {
+      "title": "Parashat Shemot",
+      "date": "2026-01-10",
+      "hdate": "21 Tevet 5786",
+      "category": "parashat",
+      "leyning": {
+        "1": "Exodus 1:1-1:17",
+        "2": "Exodus 1:18-2:10",
+        "3": "Exodus 2:11-2:25",
+        "4": "Exodus 3:1-3:15",
+        "5": "Exodus 3:16-4:17",
+        "6": "Exodus 4:18-4:31",
+        "7": "Exodus 5:1-6:1",
+        "torah": "Exodus 1:1-6:1",
+        "haftarah": "Isaiah 27:6-28:13, 29:22-23",
+        "haftarah_sephardic": "Jeremiah 1:1-2:3",
+        "maftir": "Exodus 5:22-6:1",
+        "triennial": {
+          "1": "Exodus 1:1-1:7",
+          "2": "Exodus 1:8-1:12",
+          "3": "Exodus 1:13-1:17",
+          "4": "Exodus 1:18-1:22",
+          "5": "Exodus 2:1-2:10",
+          "6": "Exodus 2:11-2:15",
+          "7": "Exodus 2:16-2:25",
+          "maftir": "Exodus 2:23-2:25"
+        }
+      }
+    }
+  ]
+}
 ```
 
 Each returned item carries a `leyning` object with the aliyot, `torah` summary,
