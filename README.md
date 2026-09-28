@@ -99,6 +99,27 @@ query code set to `on` or `1`.
 GET /learning?start=2026-08-14&end=2026-08-14&dsm=on&dksa=on
 ```
 
+### `GET /shabbatTorahReading`
+
+Torah reading for a single date: the parsha for that Shabbat, or the leyning
+for a chag falling on that date.
+
+**Query parameters**
+
+| Parameter | Required | Description |
+| --------- | -------- | ----------- |
+| `date`    | yes      | Date, `YYYY-MM-DD` |
+| `i`       | no       | `i=on` for the Israel schedule |
+
+**Example**
+
+```
+GET /shabbatTorahReading?date=2026-08-15
+```
+
+Returns the same `leyning` shape as `/leyning`'s items (aliyot, `torah`
+summary, `haftarah`, `maftir`, and `triennial` for a parsha).
+
 ### `GET /leyning`
 
 Torah readings for Shabbat and holidays that fall within a date range. Only
