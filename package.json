@@ -20,14 +20,14 @@
     "test": "node --test"
   },
   "dependencies": {
-    "@hebcal/core": "^6.13.0",
-    "@hebcal/learning": "^6.12.0",
+    "@hebcal/core": "^6.14.4",
+    "@hebcal/learning": "^6.12.2",
     "@hebcal/leyning": "^10.1.0",
     "@hebcal/locales": "^6.5.3",
-    "@hebcal/rest-api": "^7.3.0",
+    "@hebcal/rest-api": "^7.3.1",
     "@hebcal/triennial": "^6.4.0"
   },
   "devDependencies": {
-    "oxlint": "^1.86.0"
+    "oxlint": "^1.88.0"
   }
 }
