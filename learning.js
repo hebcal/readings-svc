@@ -25,6 +25,7 @@ const queryToDailyLearningName = {
   ahsy: 'arukhHaShulchanYomi',
   dksa: 'kitzurShulchanAruch',
   ddh: 'dirshuDafHalacha',
+  dtn: 'tanyaYomi',
 };
 
 /**
