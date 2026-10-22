@@ -11,11 +11,12 @@ local Unix-domain socket.
 
 The three APIs are:
 
-1. **Daily Learning** (`/learning`) — the 20 daily-learning series from
+1. **Daily Learning** (`/learning`) — the 21 daily-learning series from
    [`@hebcal/learning`](https://github.com/hebcal/learning), used by the PDF
-   calendar feature. Six of them cannot be generated in-process by hebcal-go —
+   calendar feature. Several of them cannot be generated in-process by hebcal-go —
    **Sefer HaMitzvot**, **Kitzur Shulchan Arukh**, **Arukh HaShulchan**, **Amud
-   HaYomi (Dirshu)**, **Chofetz Chaim** and **Shemirat HaLashon** — which is the
+   HaYomi (Dirshu)**, **Chofetz Chaim**, **Shemirat HaLashon** and **Tanya
+   Yomi** — which is the
    main reason this service exists.
 2. **Leyning** (`/leyning`) — Torah readings for Shabbat and holidays, including
    the triennial cycle, from
@@ -99,6 +100,7 @@ query code set to `on` or `1`.
 | `dpa`   | Pirkei Avot (summer) |
 | `ahsy`  | **Arukh HaShulchan Yomi** |
 | `dksa`  | **Kitzur Shulchan Arukh** |
+| `dtn`   | **Tanya Yomi** |
 
 **Example**
 

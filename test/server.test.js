@@ -102,6 +102,14 @@ test('GET /learning', async () => {
   assert.equal(res.body.items[0].category, 'dafyomi');
 });
 
+test('GET /learning Tanya Yomi', async () => {
+  const res = await get('/learning?start=2026-12-01&end=2026-12-01&dtn=on');
+  assert.equal(res.status, 200);
+  assert.equal(res.body.items.length, 1);
+  assert.equal(res.body.items[0].category, 'tanyaYomi');
+  assert.equal(res.body.items[0].title_orig, 'Likkutei Amarim, Compiler\'s Foreword 1');
+});
+
 test('GET /shabbatTorahReading', async () => {
   const res = await get('/shabbatTorahReading?date=2026-01-10');
   assert.equal(res.status, 200);
