@@ -1,6 +1,6 @@
 # readings-svc
 
-A small Node.js sidecar microservice that provides three Hebcal APIs which are
+A small Node.js sidecar microservice that provides four Hebcal APIs which are
 not available natively in the Go port of Hebcal web APIs,
 [hebcal-api-go](https://github.com/hebcal/hebcal-api-go). The Go service handles
 date conversion, zmanim, geolocation and Shabbat times with high throughput, but
@@ -9,7 +9,7 @@ series on its own. This service fills those gaps by wrapping the mature
 Node.js [`@hebcal`](https://github.com/hebcal) packages and exposing them over a
 local Unix-domain socket.
 
-The three APIs are:
+The four APIs are:
 
 1. **Daily Learning** (`/learning`) — the 21 daily-learning series from
    [`@hebcal/learning`](https://github.com/hebcal/learning), used by the PDF
@@ -27,6 +27,10 @@ The three APIs are:
    single date from [`@hebcal/leyning`](https://github.com/hebcal/leyning),
    used by the MCP torah-portion tool. Unlike `/leyning`, it does not include
    the triennial cycle.
+4. **Torah Memo** (`/torahMemo`) — finished memo text (Torah and Haftarah
+   readings, Haftarah reason, Sephardic reading) for parsha and holiday events
+   in a date range, produced by the same `makeTorahMemoText()` implementation
+   used by hebcal-web.
 
 `/learning` and `/leyning` respond in Hebcal's "classic API" JSON shape,
 produced by [`@hebcal/rest-api`](https://github.com/hebcal/rest-api), so they
@@ -314,6 +318,8 @@ curl --unix-socket /run/hebcal/readings-svc.sock \
 | `index.js`    | HTTP server, Unix-socket lifecycle, routing |
 | `learning.js` | `/learning` handler and query-code → series mapping |
 | `leyning.js`  | `/leyning` handler, including triennial readings |
+| `torahMemo.js` | `/torahMemo` handler and `makeTorahMemoText()` |
+| `haftarahTheme.js` | Haftarah theme/label formatting used by the memo |
 | `date.js`     | `start`/`end` date parsing and validation |
 
 `systemd/hebcal-readings.service` runs it as a `DynamicUser` unit with
