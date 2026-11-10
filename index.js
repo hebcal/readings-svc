@@ -4,6 +4,7 @@ import process from 'node:process';
 import {parseArgs} from 'node:util';
 import {dailyLearning} from './learning.js';
 import {leyning, shabbatTorahReading} from './leyning.js';
+import {torahMemo} from './torahMemo.js';
 
 const DEFAULT_SOCKET_PATH = '/run/hebcal/readings-svc.sock';
 
@@ -37,6 +38,9 @@ const server = http.createServer((req, res) => {
       sendJsonResponse(res, 200, obj);
     } else if (url.pathname.startsWith('/leyning')) {
       const obj = leyning(url);
+      sendJsonResponse(res, 200, obj);
+    } else if (url.pathname.startsWith('/torahMemo')) {
+      const obj = torahMemo(url);
       sendJsonResponse(res, 200, obj);
     } else {
       sendJsonResponse(res, 404, { error: 'Not Found' });
