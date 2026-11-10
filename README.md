@@ -180,6 +180,42 @@ include the `triennial` cycle.
 }
 ```
 
+### `GET /torahMemo`
+
+Finished Torah memo text for parsha and holiday events in a date range. This
+runs the same `makeTorahMemoText()` implementation used by hebcal-web, including
+the Haftarah reason, Sephardic reading, and Haftarot of Admonition/Consolation
+labels. It returns only rows with non-empty memo text.
+
+**Query parameters**
+
+| Parameter | Required | Description |
+| --------- | -------- | ----------- |
+| `start`   | yes      | Start date, `YYYY-MM-DD` |
+| `end`     | yes      | End date, `YYYY-MM-DD` |
+| `i`       | no       | `i=on` for the Israel schedule |
+
+**Example**
+
+```
+GET /torahMemo?start=2026-09-12&end=2033-09-30&i=on
+```
+
+Returns an array of `{date, desc, memo}` rows. `desc` is the untranslated
+English event description, so callers match by date and description rather than
+localized titles. Omer, Mevarchim, Molad, user events, Hebrew dates, daily
+learning events, and timed events are excluded.
+
+```json
+[
+  {
+    "date": "2026-09-19",
+    "desc": "Parashat Ha'azinu",
+    "memo": "Torah: Deuteronomy 32:1-32:52\\nHaftarah: II Samuel 22:1-51"
+  }
+]
+```
+
 ### `GET /leyning`
 
 Torah readings for Shabbat and holidays that fall within a date range. Only
