@@ -184,7 +184,7 @@ include the `triennial` cycle.
 
 Torah readings for Shabbat and holidays that fall within a date range. Only
 events that have leyning are returned. Parsha HaShavua events (from 5745 onward)
-also include the `triennial` cycle reading.
+also include the `triennial` cycle reading unless `triennial=off` is given.
 
 **Query parameters**
 
@@ -193,6 +193,7 @@ also include the `triennial` cycle reading.
 | `start`   | yes      | Start date, `YYYY-MM-DD` |
 | `end`     | yes      | End date, `YYYY-MM-DD` |
 | `i`       | no       | `i=on` for the Israel schedule |
+| `triennial` | no     | `triennial=off` omits the `triennial` reading (default: on) |
 
 **Example**
 

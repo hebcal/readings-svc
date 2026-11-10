@@ -5,7 +5,8 @@ import { getTriennialForParshaHaShavua } from '@hebcal/triennial';
 import { getStartAndEnd, isoDateStringToDate } from './date.js';
 
 /**
- * Returns only events with Leyning. Adds Triennial readings for Parsha HaShavua.
+ * Returns only events with Leyning. Adds Triennial readings for Parsha HaShavua
+ * unless the optional `triennial=off` query parameter is given.
  *
  * English only, deliberately: `lg` is ignored and no locale is read from the
  * query. The readings themselves are locale-invariant -- book names, verse
@@ -29,6 +30,7 @@ export function leyning(url) {
     locale: 'en',
     il: sp.get('i') === 'on',
   };
+  const triennial = sp.get('triennial') !== 'off';
   const events = calendar(options);
   const items = events.map((ev) => {
     const item = eventToClassicApiObject(ev, options, true);
@@ -42,7 +44,7 @@ export function leyning(url) {
     delete item.link;
     delete item.memo;
     delete item.hebrew;
-    if (ev.hasFlag('PARSHA_HASHAVUA') && ev.getDate().getFullYear() >= 5745) {
+    if (triennial && ev.hasFlag('PARSHA_HASHAVUA') && ev.getDate().getFullYear() >= 5745) {
       const triReading = getTriennialForParshaHaShavua(ev, options.il);
       const aliyot = triReading?.aliyot;
       if (aliyot) {
