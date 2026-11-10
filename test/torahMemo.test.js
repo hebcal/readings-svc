@@ -17,7 +17,7 @@ test('formats Haftarot of Admonition and Consolation', () => {
 
 test('returns English Torah memo rows for parsha events', () => {
   const url = new URL(
-    'http://unix/torahMemo?start=2026-09-12&end=2026-09-19',
+    'http://unix/torahMemo?start=2026-09-12&end=2026-09-20',
   );
   const rows = torahMemo(url);
   assert.ok(rows.length > 0);
