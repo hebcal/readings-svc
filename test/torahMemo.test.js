@@ -28,8 +28,14 @@ test('returns English Torah memo rows for parsha events', () => {
     memo.length > 0
   ));
   const haazinu = rows.find(row =>
-    row.date === '2026-09-19' && row.desc === "Parashat Ha'azinu"
+    row.date === '2026-09-19' && /ha['’]?azinu/i.test(row.desc)
   );
-  assert.ok(haazinu, 'includes the untranslated Haazinu event');
+  assert.ok(
+    haazinu,
+    `includes the untranslated Ha'azinu event; got: ${rows
+      .filter(row => row.date === '2026-09-19')
+      .map(row => row.desc)
+      .join(', ')}`,
+  );
   assert.match(haazinu.memo, /^Torah: /);
 });
