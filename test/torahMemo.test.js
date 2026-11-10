@@ -17,7 +17,7 @@ test('formats Haftarot of Admonition and Consolation', () => {
 
 test('returns English Torah memo rows for parsha events', () => {
   const url = new URL(
-    'http://unix/torahMemo?start=2026-09-12&end=2026-09-20',
+    'http://unix/torahMemo?start=2026-04-17&end=2026-04-19',
   );
   const rows = torahMemo(url);
   assert.ok(rows.length > 0);
@@ -27,15 +27,9 @@ test('returns English Torah memo rows for parsha events', () => {
     typeof memo === 'string' &&
     memo.length > 0
   ));
-  const haazinu = rows.find(row =>
-    row.date === '2026-09-19' && /ha['’]?azinu/i.test(row.desc)
-  );
-  assert.ok(
-    haazinu,
-    `includes the untranslated Ha'azinu event; got: ${rows
-      .filter(row => row.date === '2026-09-19')
-      .map(row => row.desc)
-      .join(', ')}`,
-  );
-  assert.match(haazinu.memo, /^Torah: /);
+  const parsha = rows.find(row => /Tazria-Metzora/i.test(row.desc));
+  assert.ok(parsha, `includes the Tazria-Metzora event; got: ${rows
+    .map(row => `${row.date} ${row.desc}`)
+    .join(', ')}`);
+  assert.match(parsha.memo, /^Torah: Leviticus 12:1-15:33/);
 });
