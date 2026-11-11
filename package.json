@@ -1,6 +1,6 @@
 {
   "name": "readings-svc",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Daily Learning and Torah Reading (Leyning) microservice",
   "homepage": "https://github.com/hebcal/readings-svc#readme",
   "bugs": {
