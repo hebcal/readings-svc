@@ -81,7 +81,7 @@ export function torahMemo(url) {
     if (!memo) {
       continue;
     }
-    const dt = ev.getDate();
+    const dt = ev.greg();
     const date = [
       String(dt.getFullYear()).padStart(4, '0'),
       String(dt.getMonth() + 1).padStart(2, '0'),

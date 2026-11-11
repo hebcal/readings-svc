@@ -32,4 +32,9 @@ test('returns English Torah memo rows for parsha events', () => {
     .map(row => `${row.date} ${row.desc}`)
     .join(', ')}`);
   assert.match(parsha.memo, /^Torah: Leviticus 12:1-15:33/);
+  // the Gregorian date of the Shabbat, not one built from its Hebrew date
+  // (5786-03-01: Hebrew year, month number + 1, day)
+  assert.equal(parsha.date, '2026-04-18');
+  assert.ok(rows.every(({date}) => date >= '2026-04-17' && date <= '2026-04-19'),
+      `every row is inside the range asked for; got: ${rows.map(row => row.date).join(', ')}`);
 });
